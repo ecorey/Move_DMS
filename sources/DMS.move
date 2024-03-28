@@ -11,6 +11,7 @@ module dead_mans_switch::dead_mans_switch {
     use sui::tx_context::{Self, TxContext};
     use sui::clock::{Self, Clock};
     use std::option::{Self, Option};
+    use sui::event;
 
     use std::string::String;
 
@@ -20,8 +21,23 @@ module dead_mans_switch::dead_mans_switch {
 
 
 
-    // event for DMS
-    struct DMS_Event has copy, drop, store {
+    // event for DMS creation
+    struct DMS_Created has copy, drop, store {
+        owner: address,
+        timestamp: u64,
+        check_period: u64,
+    }
+
+
+    // event for DMS check in
+    struct DMS_Check_In has copy, drop, store {
+        owner: address,
+        timestamp: u64
+    }
+
+
+    // event for a new DMS check period began after set period
+    struct DMS_New_Check_Period_Began has copy, drop, store {
         owner: address,
         timestamp: u64
     }
@@ -37,12 +53,13 @@ module dead_mans_switch::dead_mans_switch {
     // DAta to be stored should be encrypted and a Generic type
     struct DeadMansSwitch has key, store {
 
-
         id: UID,
         owner: address,
         timestamp: u64,
         dms_container: Option<String>,
-
+        event_check_period: u64,
+        event_check_in_count: u64,
+        check_period_count: u64,
 
     }
 
@@ -52,13 +69,23 @@ module dead_mans_switch::dead_mans_switch {
 
     public fun create_dead_mans_switch(clock: &Clock, ctx: &mut TxContext) : DeadMansSwitch {
 
+
+        event::emit DMS_Created {
+            owner: tx_context::sender(ctx),
+            timestamp: clock::timestamp_ms(clock),
+            check_period: 180_000
+        };
+
+
         let dms = DeadMansSwitch {
             id: object::new(ctx),
             timestamp: clock::timestamp_ms(clock),
             owner: tx_context::sender(ctx),
             dms_container: option::none<String>(),
+            event_check_period: 180_000, // for example every 3 minutes 
+            event_check_in_count: 0,
+            check_period_count: 0
         };
-
 
 
         dms
@@ -70,6 +97,7 @@ module dead_mans_switch::dead_mans_switch {
 
 
     public fun check_in(dms: &mut DeadMansSwitch, clock: &Clock, ctx: &mut TxContext) {
+
 
 
 
