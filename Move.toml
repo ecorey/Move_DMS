@@ -1,0 +1,8 @@
+[package]
+name = "Dead_Mans_Switch"
+
+[dependencies]
+Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/testnet" }
+
+[addresses]
+dead_mans_switch = "0x0"

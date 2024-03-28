@@ -1,0 +1,1 @@
+zk_proof/zk_proofs/target/** filter=lfs diff=lfs merge=lfs -text
