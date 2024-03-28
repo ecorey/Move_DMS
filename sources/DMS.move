@@ -18,6 +18,10 @@ module dead_mans_switch::dead_mans_switch {
     use std::string::String;
 
 
+    #[test_only]
+    friend dead_mans_switch::dead_mans_switch_tests;
+
+
 
     
 
@@ -113,32 +117,32 @@ module dead_mans_switch::dead_mans_switch {
 
 
 
-    // public fun check_in(dms: &mut DeadMansSwitch, clock: &Clock, ctx: &mut TxContext) {
+    public fun check_in(dms: &mut DeadMansSwitch, clock: &Clock, ctx: &mut TxContext) {
 
         
 
 
-    // }
+    }
 
 
 
 
 
-    // public fun add_to_container(dms: &mut DeadMansSwitch, data: String, ctx: &mut TxContext) {
+    public fun add_to_container(dms: &mut DeadMansSwitch, data: String, ctx: &mut TxContext) {
 
 
 
-    // }
+    }
 
 
 
 
 
-    // public fun subscribe_to_network(ctx: &mut TxContext) {
+    public fun subscribe_to_network(ctx: &mut TxContext) {
 
 
 
-    // }
+    }
 
 
 
@@ -156,16 +160,24 @@ module dead_mans_switch::dead_mans_switch {
 
 
 
-
-
-
         transfer::public_transfer(publisher, tx_context::sender(ctx));
 
 
 
 
-
     }
+
+
+
+
+
+
+    #[test_only]
+    public fun init_for_testing(otw: DEAD_MANS_SWITCH, ctx: &mut TxContext) {
+        init(otw, ctx );
+    }
+
+
 
 
 
