@@ -19,8 +19,21 @@ module dead_mans_switch::dead_mans_switch {
 
     
 
+    // ##########ERRORS##########
 
 
+
+
+
+    // ##########CONST##########
+
+
+
+
+
+
+
+    // ##########EVENTS##########
     // event for DMS creation
     struct DMS_Created has copy, drop, store {
         owner: address,
@@ -44,7 +57,7 @@ module dead_mans_switch::dead_mans_switch {
 
 
 
-
+    // ##########STRUCTS##########
     // DeadMansSwitch that has container that holds the ecrypted information
     // releases the information if the owner does not check in via events
     // other users can see the information if the owner does not check in through subscribing to events
@@ -66,7 +79,7 @@ module dead_mans_switch::dead_mans_switch {
 
 
 
-
+    // ##########PUBLIC_FUNCTIONS##########
     public fun create_dead_mans_switch(clock: &Clock, ctx: &mut TxContext) : DeadMansSwitch {
 
 
@@ -98,7 +111,7 @@ module dead_mans_switch::dead_mans_switch {
 
     public fun check_in(dms: &mut DeadMansSwitch, clock: &Clock, ctx: &mut TxContext) {
 
-
+        
 
 
     }
