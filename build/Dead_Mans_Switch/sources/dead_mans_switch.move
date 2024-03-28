@@ -32,7 +32,7 @@ module dead_mans_switch::dead_mans_switch {
 
 
     // ##########CONST##########
-
+    const ECountIncorrect: u64 = 1;
 
 
 
@@ -119,10 +119,14 @@ module dead_mans_switch::dead_mans_switch {
 
     public fun check_in(dms: &mut DeadMansSwitch, clock: &Clock, ctx: &mut TxContext) {
 
+
         event::emit(DMS_Check_In {
             owner: tx_context::sender(ctx),
             timestamp: clock::timestamp_ms(clock),
         });
+
+        
+        assert!(dms.event_check_in_count == dms.check_period_count, ECountIncorrect);
 
 
         dms.event_check_in_count = dms.event_check_in_count + 1;
@@ -146,11 +150,16 @@ module dead_mans_switch::dead_mans_switch {
 
 
 
+
+
     public fun subscribe_to_network(ctx: &mut TxContext) {
 
 
 
     }
+
+
+
 
 
 
@@ -172,6 +181,22 @@ module dead_mans_switch::dead_mans_switch {
 
 
 
+
+    }
+
+
+
+     // GET TIME
+    struct TimeEvent has copy, drop, store {
+        timestamp_ms: u64
+    }
+
+
+
+    public fun get_time(clock: &Clock)  {
+        event::emit(TimeEvent {
+            timestamp_ms: clock::timestamp_ms(clock),
+        });
 
     }
 

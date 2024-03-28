@@ -1,0 +1,22 @@
+{
+  "name": "scripts",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+  },
+  "dependencies": {
+   
+    "@mysten/kiosk": "^0.8.4",
+    "@mysten/sui.js": "0.45.1",
+    "ws": "^8.16.0"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.5.10",
+    "eslint": "^8.56.0"
+   
+  },
+  "overrides": {
+    "@mysten/sui.js": "0.45.1"
+  }
+}
