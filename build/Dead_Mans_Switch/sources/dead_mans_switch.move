@@ -90,7 +90,7 @@ module dead_mans_switch::dead_mans_switch {
 
 
 
-         event::emit(DMS_Created {
+        event::emit(DMS_Created {
             owner: tx_context::sender(ctx),
             timestamp: clock::timestamp_ms(clock),
             check_period: 180_000
@@ -119,7 +119,15 @@ module dead_mans_switch::dead_mans_switch {
 
     public fun check_in(dms: &mut DeadMansSwitch, clock: &Clock, ctx: &mut TxContext) {
 
+        event::emit(DMS_Check_In {
+            owner: tx_context::sender(ctx),
+            timestamp: clock::timestamp_ms(clock),
+        });
+
+
+        dms.event_check_in_count = dms.event_check_in_count + 1;
         
+
 
 
     }
