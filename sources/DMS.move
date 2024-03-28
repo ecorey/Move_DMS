@@ -12,6 +12,8 @@ module dead_mans_switch::dead_mans_switch {
     use sui::clock::{Self, Clock};
     use std::option::{Self, Option};
     use sui::event;
+    use sui::package::{Self, Publisher};
+    use sui::transfer;
 
     use std::string::String;
 
@@ -83,11 +85,13 @@ module dead_mans_switch::dead_mans_switch {
     public fun create_dead_mans_switch(clock: &Clock, ctx: &mut TxContext) : DeadMansSwitch {
 
 
-        event::emit DMS_Created {
+
+         event::emit(DMS_Created {
             owner: tx_context::sender(ctx),
             timestamp: clock::timestamp_ms(clock),
             check_period: 180_000
-        };
+        });
+
 
 
         let dms = DeadMansSwitch {
@@ -109,40 +113,59 @@ module dead_mans_switch::dead_mans_switch {
 
 
 
-    public fun check_in(dms: &mut DeadMansSwitch, clock: &Clock, ctx: &mut TxContext) {
+    // public fun check_in(dms: &mut DeadMansSwitch, clock: &Clock, ctx: &mut TxContext) {
 
         
 
 
+    // }
+
+
+
+
+
+    // public fun add_to_container(dms: &mut DeadMansSwitch, data: String, ctx: &mut TxContext) {
+
+
+
+    // }
+
+
+
+
+
+    // public fun subscribe_to_network(ctx: &mut TxContext) {
+
+
+
+    // }
+
+
+
+    struct DEAD_MANS_SWITCH has drop {}
+    
+
+
+
+    fun init(otw: DEAD_MANS_SWITCH, ctx: &mut TxContext) {
+
+        let publisher = package::claim(otw, ctx);
+
+
+
+
+
+
+
+
+
+        transfer::public_transfer(publisher, tx_context::sender(ctx));
+
+
+
+
+
     }
-
-
-
-
-
-    public fun add_to_container(dms: &mut DeadMansSwitch, data: String, ctx: &mut TxContext) {
-
-
-
-    }
-
-
-
-
-
-    public fun subscribe_to_network(ctx: &mut TxContext) {
-
-
-
-    }
-
-
-
-
-
-
-
-
 
 
 
