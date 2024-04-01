@@ -1,6 +1,9 @@
 module dead_mans_switch::dead_mans_switch {
 
 
+    // IMPLEMENT RANDOMNESS FOR HACKATHON DEMO
+
+
     // There is a period of time established for routine check ins
     // at the beginning of a period it is checked that:
     // the event_check_in minus the period_count is equal to 0.
@@ -61,6 +64,12 @@ module dead_mans_switch::dead_mans_switch {
         timestamp: u64
     }
 
+    // event to get time from a timestamp_ms
+    struct TimeEvent has copy, drop, store {
+        timestamp_ms: u64
+    }
+
+
 
 
     // ##########STRUCTS##########
@@ -79,6 +88,7 @@ module dead_mans_switch::dead_mans_switch {
         event_check_period: u64,
         event_check_in_count: u64,
         check_period_count: u64,
+        dms_verified: bool,
 
     }
 
@@ -86,6 +96,17 @@ module dead_mans_switch::dead_mans_switch {
 
 
     // ##########PUBLIC_FUNCTIONS##########
+    
+    // GET TIME
+    public fun get_time(clock: &Clock)  {
+        event::emit(TimeEvent {
+            timestamp_ms: clock::timestamp_ms(clock),
+        });
+
+    }
+
+
+
     public fun create_dead_mans_switch(clock: &Clock, ctx: &mut TxContext) : DeadMansSwitch {
 
 
@@ -105,8 +126,8 @@ module dead_mans_switch::dead_mans_switch {
             dms_container: option::none<String>(),
             event_check_period: 180_000, // for example every 3 minutes 
             event_check_in_count: 0,
-            check_period_count: 0
-        };
+            check_period_count: 0,
+            bool: true,        };
 
 
         dms
@@ -185,20 +206,6 @@ module dead_mans_switch::dead_mans_switch {
     }
 
 
-
-     // GET TIME
-    struct TimeEvent has copy, drop, store {
-        timestamp_ms: u64
-    }
-
-
-
-    public fun get_time(clock: &Clock)  {
-        event::emit(TimeEvent {
-            timestamp_ms: clock::timestamp_ms(clock),
-        });
-
-    }
 
 
 
