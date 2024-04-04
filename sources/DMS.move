@@ -29,13 +29,13 @@ module dead_mans_switch::dead_mans_switch {
     
 
     // ##########ERRORS##########
-
+    const ECountIncorrect: u64 = 1;
 
 
 
 
     // ##########CONST##########
-    const ECountIncorrect: u64 = 1;
+    
 
 
 

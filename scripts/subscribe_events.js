@@ -2,8 +2,8 @@ import { getFullnodeUrl, SuiClient, SuiHTTPTransport } from "@mysten/sui.js/clie
 import { Ed25519Keypair } from "@mysten/sui.js/keypairs/ed25519";
 import { WebSocket } from 'ws';
 import walletDev from './dev-wallet.json' assert { type: 'json' };
-
-import {  PACKAGE } from './config.js';
+import { TransactionBlock } from "@mysten/sui.js/transactions";
+import {  Package } from './config.js';
 
 
 
@@ -23,12 +23,14 @@ const keypairdev = Ed25519Keypair.fromSecretKey(privateKeyBytes);
 
 // contract events
 const eventsToSubscribe = [ 
-    `${PACKAGE}::dead_mans_switch::TimeEvent`,
-    `${PACKAGE}::dead_mans_switch::DMS_Created`,
-    `${PACKAGE}::dead_mans_switch::DMS_Check_In`,
-    `${PACKAGE}::dead_mans_switch::DMS_New_Check_Period_Began`,
+    `${Package}::dead_mans_switch::TimeEvent`,
+    `${Package}::dead_mans_switch::DMS_Created`,
+    `${Package}::dead_mans_switch::DMS_Check_In`,
+    `${Package}::dead_mans_switch::DMS_New_Check_Period_Began`,
     
 ];
+
+
 
 
 
@@ -59,16 +61,17 @@ const client = new SuiClient({
 
         
 
-        // let unsubscribe = await client.subscribeEvent({
-        //     filter: { Package },
-        //     onMessage: (event) => {
-        //         console.log('subscribeEvent', JSON.stringify(event, null, 2));
-        //     },
-        // });
+        let unsubscribe = await client.subscribeEvent({
+            filter: { Package },
+            onMessage: (event) => {
+                console.log("subscribeEvent", JSON.stringify(event, null, 2))
+            }
+        });
+        
          
        
 
-        // await unsubscribe();
+        await unsubscribe();
 
 
 

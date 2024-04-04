@@ -5,7 +5,7 @@ import walletDev from './dev-wallet.json' assert { type: 'json' };
 
 import { WebSocket } from 'ws';
 
-import {  PACKAGE, CLOCK  } from './config.js';
+import {  Package, CLOCK  } from './config.js';
 
 
 // ###################################
@@ -47,7 +47,7 @@ const client = new SuiClient({
 
         async function logCurrentTime() {
             await txb.moveCall({
-                target: `${PACKAGE}::dead_mans_switch::get_time`,
+                target: `${Package}::dead_mans_switch::get_time`,
                 arguments: [txb.object(CLOCK)],
             });
            
