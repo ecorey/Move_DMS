@@ -10,7 +10,7 @@ module dead_mans_switch::dead_mans_switch {
     // if it is not equal to 0 then the information is unencrypted and released
     // or released woth the private key of the owner
 
-    use sui::object::{Self, UID};
+    use sui::object::{Self, UID, ID};
     use sui::tx_context::{Self, TxContext};
     use sui::clock::{Self, Clock};
     use std::option::{Self, Option};
