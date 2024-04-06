@@ -137,7 +137,7 @@ module dead_mans_switch::dead_mans_switch {
 
 
 
-
+    // use subscribe to events to get the information
     public fun check_in(dms: &mut DeadMansSwitch, clock: &Clock, ctx: &mut TxContext) {
 
 
