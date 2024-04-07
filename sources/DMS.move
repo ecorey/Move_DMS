@@ -97,7 +97,7 @@ module dead_mans_switch::dead_mans_switch {
 
     // ##########PUBLIC_FUNCTIONS##########
     
-    // GET TIME
+    // GET TIME VIA EVENT
     public fun get_time(clock: &Clock)  {
         event::emit(TimeEvent {
             timestamp_ms: clock::timestamp_ms(clock),
