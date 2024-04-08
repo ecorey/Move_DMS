@@ -7,11 +7,10 @@ import {  Package } from './config.js';
 
 
 
-// UNDER DEVELOPMENT****************************
-// *********************************************
 // #############################################
 // ############SUBSCRIBE EVENTS#################
 // #############################################
+
 
 
 // Initialize keypair
@@ -80,16 +79,8 @@ const client = new SuiClient({
         });
 
 
-        // await unsubscribe();
+        
 
-
-
-
-
-
-
-
-      
 
         
         // finalize the transaction block
@@ -101,7 +92,7 @@ const client = new SuiClient({
 
 
 
-        
+
         // log the transaction result
         console.log(`Transaction result: ${JSON.stringify(txid, null, 2)}`);
         console.log(`success: https://suiexplorer.com/txblock/${txid.digest}?network=testnet`);
