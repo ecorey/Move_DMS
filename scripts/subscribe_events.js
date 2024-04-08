@@ -70,8 +70,17 @@ const client = new SuiClient({
         
          
        
+        process.on('SIGINT', async () => {
+            console.log('Inturrpted...');
+            if (unsubscribe) {
+                await unsubscribe();
+                unsubscribe = undefined;
+            }
+            
+        });
 
-        await unsubscribe();
+
+        // await unsubscribe();
 
 
 
@@ -91,6 +100,8 @@ const client = new SuiClient({
         
 
 
+
+        
         // log the transaction result
         console.log(`Transaction result: ${JSON.stringify(txid, null, 2)}`);
         console.log(`success: https://suiexplorer.com/txblock/${txid.digest}?network=testnet`);
