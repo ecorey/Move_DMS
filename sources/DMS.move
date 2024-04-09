@@ -127,7 +127,8 @@ module dead_mans_switch::dead_mans_switch {
             event_check_period: 180_000, // for example every 3 minutes 
             event_check_in_count: 0,
             check_period_count: 0,
-            bool: true,        };
+            dms_verified: true,
+            };
 
 
         dms
