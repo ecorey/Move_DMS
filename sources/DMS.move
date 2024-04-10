@@ -190,6 +190,7 @@ module dead_mans_switch::dead_mans_switch {
     }
 
 
+
     // needs a circom circut script to generate the proof
     public fun zk_proof_hash_ownership(vk_bytes: vector<u8>, public_input_bytes: vector<u8>, proof_points_bytes: vector<u8>) {
         let pvk = groth16::prepare_verifying_key(&groth16::bn254(), &vk_bytes);
@@ -206,7 +207,7 @@ module dead_mans_switch::dead_mans_switch {
 
 
 
-    public fun add_to_container(dms: &mut DeadMansSwitch, data: String, ctx: &mut TxContext) {
+    public fun add_to_container(dms: &mut DeadMansSwitch, message: vector<u8>, ctx: &mut TxContext) {
 
 
 
@@ -246,16 +247,19 @@ module dead_mans_switch::dead_mans_switch {
 
 
 
+
+
+
+
+
+
+
+
+
     #[test_only]
     public fun init_for_testing(otw: DEAD_MANS_SWITCH, ctx: &mut TxContext) {
         init(otw, ctx );
     }
-
-
-
-
-
-
 
 
 
