@@ -21,6 +21,9 @@ module dead_mans_switch::dead_mans_switch {
     use std::vector;
     use std::string::String;
 
+    use sui::groth16;
+
+
 
     #[test_only]
     friend dead_mans_switch::dead_mans_switch_tests;
@@ -167,6 +170,8 @@ module dead_mans_switch::dead_mans_switch {
     }
 
 
+
+
     public fun hash_message(message: vector<u8>, recipient: address, ctx: &mut TxContext) {
 
         let hashed_message = HashedOutput {
@@ -180,10 +185,20 @@ module dead_mans_switch::dead_mans_switch {
     }
 
 
+    struct VerifiedZKProof has copy, drop {
+        is_verified: bool,
+    }
 
 
-    public fun zk_proof_hash_ownership(ctx: &mut TxContext) {
+    // needs a circom circut script to generate the proof
+    public fun zk_proof_hash_ownership(vk_bytes: vector<u8>, public_input_bytes: vector<u8>, proof_points_bytes: vector<u8>) {
+        let pvk = groth16::prepare_verifying_key(&groth16::bn254(), &vk_bytes);
+        let public_inputs = groth16::public_proof_inputs_from_bytes(public_input_bytes);
+        let proof_points = groth16::proof_points_from_bytes(proof_points_bytes);
 
+        event::emit(VerifiedZKProof {
+            is_verified: groth16::verify_groth16_proof(&groth16::bn254(), &pvk, &public_inputs, &proof_points)
+        });
 
 
     }
