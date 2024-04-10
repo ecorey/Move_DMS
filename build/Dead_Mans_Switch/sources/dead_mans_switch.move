@@ -1,20 +1,24 @@
 module dead_mans_switch::dead_mans_switch {
 
 
+    // IMPLEMENT RANDOMNESS FOR HACKATHON DEMO
+
+
     // There is a period of time established for routine check ins
     // at the beginning of a period it is checked that:
     // the event_check_in minus the period_count is equal to 0.
     // if it is not equal to 0 then the information is unencrypted and released
     // or released woth the private key of the owner
 
-    use sui::object::{Self, UID};
+    use sui::object::{Self, UID, ID};
     use sui::tx_context::{Self, TxContext};
     use sui::clock::{Self, Clock};
     use std::option::{Self, Option};
     use sui::event;
     use sui::package::{Self, Publisher};
     use sui::transfer;
-
+    use std::hash;
+    use std::vector;
     use std::string::String;
 
 
@@ -26,13 +30,13 @@ module dead_mans_switch::dead_mans_switch {
     
 
     // ##########ERRORS##########
-
+    const ECountIncorrect: u64 = 1;
 
 
 
 
     // ##########CONST##########
-    const ECountIncorrect: u64 = 1;
+    
 
 
 
@@ -61,6 +65,12 @@ module dead_mans_switch::dead_mans_switch {
         timestamp: u64
     }
 
+    // event to get time from a timestamp_ms
+    struct TimeEvent has copy, drop, store {
+        timestamp_ms: u64
+    }
+
+
 
 
     // ##########STRUCTS##########
@@ -79,6 +89,7 @@ module dead_mans_switch::dead_mans_switch {
         event_check_period: u64,
         event_check_in_count: u64,
         check_period_count: u64,
+        dms_verified: bool,
 
     }
 
@@ -86,6 +97,17 @@ module dead_mans_switch::dead_mans_switch {
 
 
     // ##########PUBLIC_FUNCTIONS##########
+    
+    // GET TIME VIA EVENT
+    public fun get_time(clock: &Clock)  {
+        event::emit(TimeEvent {
+            timestamp_ms: clock::timestamp_ms(clock),
+        });
+
+    }
+
+
+
     public fun create_dead_mans_switch(clock: &Clock, ctx: &mut TxContext) : DeadMansSwitch {
 
 
@@ -105,8 +127,9 @@ module dead_mans_switch::dead_mans_switch {
             dms_container: option::none<String>(),
             event_check_period: 180_000, // for example every 3 minutes 
             event_check_in_count: 0,
-            check_period_count: 0
-        };
+            check_period_count: 0,
+            dms_verified: true,
+            };
 
 
         dms
@@ -116,7 +139,7 @@ module dead_mans_switch::dead_mans_switch {
 
 
 
-
+    // use subscribe to events to get the information
     public fun check_in(dms: &mut DeadMansSwitch, clock: &Clock, ctx: &mut TxContext) {
 
 
@@ -138,6 +161,34 @@ module dead_mans_switch::dead_mans_switch {
 
 
 
+    struct HashedOutput has key, store {
+        id: UID,
+        value: vector<u8>,
+    }
+
+
+    public fun hash_message(message: vector<u8>, recipient: address, ctx: &mut TxContext) {
+
+        let hashed_message = HashedOutput {
+            id: object::new(ctx),
+            value: hash::sha2_256(message),
+        };
+
+        transfer::public_transfer(hashed_message, recipient);
+
+
+    }
+
+
+
+
+    public fun zk_proof_hash_ownership(ctx: &mut TxContext) {
+
+
+
+    }
+
+
 
 
     public fun add_to_container(dms: &mut DeadMansSwitch, data: String, ctx: &mut TxContext) {
@@ -146,17 +197,6 @@ module dead_mans_switch::dead_mans_switch {
 
     }
 
-
-
-
-
-
-
-    public fun subscribe_to_network(ctx: &mut TxContext) {
-
-
-
-    }
 
 
 
@@ -185,20 +225,6 @@ module dead_mans_switch::dead_mans_switch {
     }
 
 
-
-     // GET TIME
-    struct TimeEvent has copy, drop, store {
-        timestamp_ms: u64
-    }
-
-
-
-    public fun get_time(clock: &Clock)  {
-        event::emit(TimeEvent {
-            timestamp_ms: clock::timestamp_ms(clock),
-        });
-
-    }
 
 
 

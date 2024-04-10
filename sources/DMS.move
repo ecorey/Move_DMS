@@ -17,7 +17,8 @@ module dead_mans_switch::dead_mans_switch {
     use sui::event;
     use sui::package::{Self, Publisher};
     use sui::transfer;
-
+    use std::hash;
+    use std::vector;
     use std::string::String;
 
 
@@ -160,10 +161,20 @@ module dead_mans_switch::dead_mans_switch {
 
 
 
+    struct HashedOutput has key, store {
+        id: UID,
+        value: vector<u8>,
+    }
 
 
-    public fun hash_message(message: vector<u8>, ctx: &mut TxContext) {
+    public fun hash_message(message: vector<u8>, recipient: address, ctx: &mut TxContext) {
 
+        let hashed_message = HashedOutput {
+            id: object::new(ctx),
+            value: hash::sha2_256(message),
+        };
+
+        transfer::public_transfer(hashed_message, recipient);
 
 
     }
