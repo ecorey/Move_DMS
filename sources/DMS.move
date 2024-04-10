@@ -162,23 +162,30 @@ module dead_mans_switch::dead_mans_switch {
 
 
 
+    public fun hash_message(message: vector<u8>, ctx: &mut TxContext) {
+
+
+
+    }
+
+
+
+
+    public fun zk_proof_hash_ownership(ctx: &mut TxContext) {
+
+
+
+    }
+
+
+
+
     public fun add_to_container(dms: &mut DeadMansSwitch, data: String, ctx: &mut TxContext) {
 
 
 
     }
 
-
-
-
-
-
-
-    public fun subscribe_to_network(ctx: &mut TxContext) {
-
-
-
-    }
 
 
 
