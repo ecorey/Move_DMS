@@ -5,3 +5,6 @@ to compile circuit:
 
 
 to generate the witness:
+
+    cargo build in the zk_snarks folder
+
