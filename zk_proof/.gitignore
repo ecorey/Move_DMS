@@ -1,1 +1,3 @@
 node_modules/
+/zk_proofs/circom/
+/zk_proofs/target/
