@@ -1,0 +1,11 @@
+# Ignore the target directory
+/target/
+
+# Ignore files that can contain secret keys or other sensitive data
+**/*.secret
+
+# Ignore editor and IDE specific files
+**/.vscode/
+**/*.swp
+**/.idea/
+*.DS_Store
