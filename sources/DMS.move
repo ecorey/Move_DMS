@@ -1,7 +1,6 @@
 module dead_mans_switch::dead_mans_switch {
 
-
-    // IMPLEMENT RANDOMNESS FOR HACKATHON DEMO
+    // Dead Mans Switch
 
 
     // There is a period of time established for routine check ins
@@ -9,6 +8,7 @@ module dead_mans_switch::dead_mans_switch {
     // the event_check_in minus the period_count is equal to 0.
     // if it is not equal to 0 then the information is unencrypted and released
     // or released woth the private key of the owner
+    
 
     use sui::object::{Self, UID, ID};
     use sui::tx_context::{Self, TxContext};
