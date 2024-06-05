@@ -163,7 +163,7 @@ module dead_mans_switch::dead_mans_switch {
     }
 
 
-
+    // hashed output
     struct HashedOutput has key, store {
         id: UID,
         value: vector<u8>,
